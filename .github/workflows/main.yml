@@ -14,46 +14,31 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3 # Updated to the latest version
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
       with:
-        ref: main
+        flutter-version: '3.10.5' # Set the desired Flutter version
 
-    - name: Download and install .NET SDK 8.0.3
-      run: |
-        # Download .NET SDK 8.0.3 installer
-        Invoke-WebRequest -Uri "https://download.visualstudio.microsoft.com/download/pr/90486d8a-fb5a-41be-bfe4-ad292c06153f/6673965085e00f5b305bbaa0b931cc96/dotnet-sdk-8.0.300-win-x64.exe" -OutFile dotnet-sdk-installer.exe
+    - name: Install dependencies
+      run: flutter pub get
 
-        # Install .NET SDK 8.0.3
-        Start-Process -FilePath dotnet-sdk-installer.exe -ArgumentList '/quiet /norestart' -Wait
+    - name: Build the Flutter app
+      run: flutter build apk --release
 
-        # Clean up installer
-        Remove-Item -Path dotnet-sdk-installer.exe
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20' # Update to Node.js 20
-
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release
-
-    - name: Test
-      run: dotnet test --configuration Release --logger trx
+    - name: Run tests
+      run: flutter test
 
     # Generate coverage report
-    - name: ReportGenerator
-      uses: danielpalme/ReportGenerator-GitHub-Action@5.3.4
-      with:
-        reports: '**/*.trx'
-        targetdir: coverage-report
-        reporttypes: 'HtmlInline_AzurePipelines'
+    - name: Generate coverage report
+      run: flutter test --coverage
+      continue-on-error: true
 
     # Upload coverage report as artifact
     - name: Upload coverage report
       uses: actions/upload-artifact@v2
       with:
         name: coverage-report
-        path: coverage-report
+        path: coverage/lcov.info
+
