@@ -23,5 +23,5 @@ jobs:
             # - Generate coverage report in a format accepted by Codacy
       - coverage-reporter/send_report:
           coverage-reports: report.xml,coverage.info
-          project-token: NylzI97w27BF7Y8A76dv
+          project-token: 3a697fe2bfde4cfa87d6adbd30270388
 
