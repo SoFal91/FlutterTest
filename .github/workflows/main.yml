@@ -21,7 +21,7 @@ jobs:
     - name: Download and install .NET SDK 8.0.3
       run: |
         # Download .NET SDK 8.0.3 installer
-        Invoke-WebRequest -Uri "https://download.visualstudio.microsoft.com/download/pr/6dd60d95-f5ae-414e-8259-b2a115e51714/c56f08471133d789dee9ffa52ddf5c1e/dotnet-sdk-8.0.300-win-x64.zip" -OutFile dotnet-sdk-installer.exe
+        Invoke-WebRequest -Uri "https://download.visualstudio.microsoft.com/download/pr/90486d8a-fb5a-41be-bfe4-ad292c06153f/6673965085e00f5b305bbaa0b931cc96/dotnet-sdk-8.0.300-win-x64.exe" -OutFile dotnet-sdk-installer.exe
 
         # Install .NET SDK 8.0.3
         Start-Process -FilePath dotnet-sdk-installer.exe -ArgumentList '/quiet /norestart' -Wait
