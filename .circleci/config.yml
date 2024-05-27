@@ -1,0 +1,27 @@
+version: 2.1
+
+orbs:
+  coverage-reporter: codacy/coverage-reporter@13.16.7
+
+workflows:
+  generate-coverage-report:
+    jobs:
+      - generate-coverage-report
+
+jobs:
+  generate-coverage-report:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - run:
+          name: Generate Coverage Report
+          command: |
+            # Run commands to generate the coverage result
+            # For example:
+            # - Run unit tests
+            # - Generate coverage report in a format accepted by Codacy
+      - coverage-reporter/send_report:
+          coverage-reports: report.xml,coverage.info
+          project-token: 3a697fe2bfde4cfa87d6adbd30270388
+
