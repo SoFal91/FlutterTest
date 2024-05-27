@@ -32,7 +32,7 @@ jobs:
 
     # Generate coverage report
     - name: Generate coverage report
-      uses: danielpalme/ReportGenerator@v4
+      uses: danielpalme/ReportGenerator@v3
       with:
         reports: '**/*.trx'
         targetdir: coverage-report
