@@ -25,7 +25,7 @@ jobs:
       run: flutter pub get
 
     - name: Build the Flutter app
-      run: flutter build apk --release
+      run: flutter build apk --release --target=main.dart # Specify main.dart as the target file
 
     - name: Run tests
       run: flutter test
