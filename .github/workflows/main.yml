@@ -18,15 +18,21 @@ jobs:
       with:
         ref: main
 
+    - name: Download and install .NET SDK 8.0.4
+      run: |
+        # Download .NET SDK 8.0.4 installer
+        Invoke-WebRequest -Uri "https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-8.0.404-windows-x64-installer" -OutFile dotnet-sdk-installer.exe
+
+        # Install .NET SDK 8.0.4
+        Start-Process -FilePath dotnet-sdk-installer.exe -ArgumentList '/quiet /norestart' -Wait
+
+        # Clean up installer
+        Remove-Item -Path dotnet-sdk-installer.exe
+
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20'
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '8.0.3'
+        node-version: '20' # Update to Node.js 20
 
     - name: Restore dependencies
       run: dotnet restore
@@ -40,7 +46,6 @@ jobs:
     # Generate coverage report
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.3.4
-            
       with:
         reports: '**/*.trx'
         targetdir: coverage-report
